@@ -25,6 +25,35 @@ Extract and return a JSON object with the following structure:
 
 Be precise and thorough. If information is unclear, make reasonable inferences based on context.`;
 
+    // Check if API key is configured
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.includes('your_openai_api_key')) {
+        console.log('Using mock resume parser');
+        // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        return {
+            techStack: ['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind CSS', 'PostgreSQL'],
+            yearsOfExperience: 5,
+            industry: 'Software Development',
+            seniorityLevel: 'senior',
+            projects: [
+                {
+                    name: 'E-commerce Platform',
+                    technologies: ['React', 'Node.js', 'MongoDB'],
+                    complexity: 'high',
+                    description: 'Built a scalable e-commerce platform handling 10k daily users.'
+                },
+                {
+                    name: 'Real-time Chat App',
+                    technologies: ['Socket.io', 'Express', 'Redis'],
+                    complexity: 'medium',
+                    description: 'Implemented real-time messaging features.'
+                }
+            ],
+            rawText: resumeText
+        };
+    }
+
     const response = await openai.chat.completions.create({
         model: 'gpt-4o',
         messages: [

@@ -35,6 +35,25 @@ Return JSON:
 
 Be realistic and data-driven in your assessment.`;
 
+    // Check if API key is configured
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.includes('your_openai_api_key')) {
+        console.log('Using mock market scorer');
+        // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        return {
+            australiaScore: 78,
+            koreaScore: 85,
+            factors: {
+                marketDemand: 82,
+                englishRequirement: 70,
+                visaDifficulty: 65,
+                competitionLevel: 75,
+                salaryFit: 88
+            }
+        };
+    }
+
     const response = await openai.chat.completions.create({
         model: 'gpt-4o',
         messages: [
