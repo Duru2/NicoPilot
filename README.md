@@ -28,7 +28,8 @@ AI-powered career analysis tool that helps tech professionals evaluate their job
 
 1. Clone the repository:
 \`\`\`bash
-cd /home/nick/career-analyzer
+git clone https://github.com/Duru2/NicoPilot.git
+cd NicoPilot
 \`\`\`
 
 2. Install dependencies:
@@ -159,3 +160,4 @@ MIT
 ## 🤝 Contributing
 
 This is a personal side project. Feel free to fork and modify for your own use.
+
