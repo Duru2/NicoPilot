@@ -12,13 +12,15 @@ if (typeof Promise.withResolvers === 'undefined') {
     };
 }
 
-const pdf = require('pdf-parse');
+const { PDFParse } = require('pdf-parse');
 
 export async function extractTextFromPDF(file: File): Promise<string> {
     try {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const data = await pdf(buffer);
+        const parser = new PDFParse({ data: buffer });
+        const data = await parser.getText();
+        await parser.destroy();
         return data.text;
     } catch (error) {
         console.error('PDF Extraction Error:', error);
