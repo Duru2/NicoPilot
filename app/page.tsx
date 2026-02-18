@@ -27,7 +27,16 @@ export default function Home() {
           body: formData,
         });
 
-        const data = await response.json();
+        const responseText = await response.text();
+        console.log('Raw Server Response:', responseText);
+
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (e) {
+          throw new Error(`서버 응답 오류 (Not JSON): ${responseText.slice(0, 100)}...`);
+        }
+
         if (!response.ok) {
           throw new Error(data.error || 'PDF 텍스트 추출에 실패했습니다');
         }
