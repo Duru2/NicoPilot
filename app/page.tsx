@@ -108,13 +108,14 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-tight">
-            막연한 지원은 그만. <br />
-            나에게 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">더 유리한 시장</span>은 어디일까요?
+            당신의 가치가 <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">제대로 평가받는 곳</span>은 어디일까요?
           </h1>
 
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            호주 vs 한국, 내 스펙으로 어디서 더 승산이 있을까요? <br className="hidden md:block" />
-            <span className="font-semibold text-slate-800">3.5억 개의 데이터</span>를 기반으로 당신의 글로벌 경쟁력을 정밀 분석해 드립니다.
+            반복되는 탈락, 막연한 불안감... 당신의 잘못이 아닙니다. <br className="hidden md:block" />
+            <span className="font-semibold text-slate-800">한국과 호주</span> 중 당신의 열정을 기다리는 진짜 시장을 찾아보세요. <br />
+            당신의 다음 10년이 여기서 결정될 수 있습니다.
           </p>
         </div>
 
@@ -123,13 +124,13 @@ export default function Home() {
           {/* Left Column: Upload (Interactive & Cute) */}
           <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border border-white/50 relative group hover:shadow-2xl transition-all duration-300">
             <div className="absolute -top-4 -right-4 bg-yellow-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12 z-20">
-              무료 분석 ✨
+              오늘만 무료 분석 ✨
             </div>
 
             <div className="relative z-10">
               <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
                 <span className="bg-blue-100 text-blue-600 p-3 rounded-2xl text-xl shadow-sm">📂</span>
-                이력서 업로드
+                인생의 전환점, 시뮬레이션
               </h2>
 
               <div
@@ -148,9 +149,9 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-lg font-bold text-slate-700">
-                      {isDragActive ? '필요한 정보를 읽고 있어요! 🔥' : '여기에 이력서를 올려주세요'}
+                      {isDragActive ? '당신의 꿈을 읽고 있어요... 🔥' : '이력서를 올리고 미래를 확인하세요'}
                     </p>
-                    <p className="text-sm text-slate-400 mt-2 font-medium">PDF 또는 TXT 형식 (최대 5MB)</p>
+                    <p className="text-sm text-slate-400 mt-2 font-medium">당신의 가능성을 PDF 또는 TXT로 보여주세요</p>
                   </div>
                 </div>
               </div>
@@ -160,14 +161,14 @@ export default function Home() {
                   <div className="w-full border-t border-slate-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white/0 backdrop-blur-sm text-slate-400 font-bold bg-[#F0F4F8]">또는 텍스트 직접 입력</span>
+                  <span className="px-4 bg-white/0 backdrop-blur-sm text-slate-400 font-bold bg-[#F0F4F8]">또는 마음을 담아 직접 입력</span>
                 </div>
               </div>
 
               <textarea
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
-                placeholder="이력서 내용을 복사해서 붙여넣으셔도 됩니다..."
+                placeholder="지금까지 걸어온 길을 여기에 적어주세요..."
                 className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-400 resize-none transition-all text-sm font-medium"
               />
 
@@ -180,23 +181,23 @@ export default function Home() {
               <button
                 onClick={handleAnalyze}
                 disabled={isLoading || !resumeText.trim()}
-                className="w-full mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-8 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-blue-500/30 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 group-hover:scale-[1.02]"
+                className="w-full mt-6 bg-gradient-to-r from-red-500 to-rose-600 text-white py-4 px-8 rounded-xl font-bold text-lg hover:from-red-600 hover:to-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-red-500/30 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 group-hover:scale-[1.02] animate-pulse-slow"
               >
                 {isLoading ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>당신의 경쟁력을 분석 중...</span>
+                    <span>당신의 새로운 시작을 설계 중...</span>
                   </>
                 ) : (
                   <>
-                    <span>무료 분석 결과 확인하기</span>
+                    <span>내 미래 설계도 확인하기</span>
                     <span className="group-hover:translate-x-1 transition-transform">→</span>
                   </>
                 )}
               </button>
 
               <p className="text-center text-xs text-slate-400 mt-4 font-medium flex items-center justify-center gap-1">
-                🔒 <span>모든 데이터는 안전하게 보호됩니다. 안심하고 이용하세요.</span>
+                🔒 <span>나의 커리어 데이터는 비공개로 안전하게 처리됩니다.</span>
               </p>
             </div>
           </div>
@@ -205,35 +206,35 @@ export default function Home() {
           <div className="space-y-6 pt-4">
             <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
               <div className="flex gap-4">
+                <div className="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">💔</div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">매번 실패하는 이유, 알아야 합니다</h3>
+                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
+                    무의미한 지원서 100개보다, **나를 간절히 원하는 시장** 1곳을 찾는 것이 백번 낫습니다. 당신의 강점을 제대로 알아주는 곳으로 안내할게요.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+              <div className="flex gap-4">
+                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">🛫</div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">인생은 선택의 연속입니다</h3>
+                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
+                    호주의 여유로운 삶과 한국의 빠른 성장, 당신의 성향과 스펙에 맞춰 어디서 더 빛날 수 있을지 냉철하게 분석해 드립니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+              <div className="flex gap-4">
                 <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">�</div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">합격 확률 극대화</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">당신의 가치는 생각보다 높습니다</h3>
                   <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    내 스펙이 현지 시장에서 어떤 평가를 받는지 알고 계신가요? 전략적으로 접근하면 면접 기회가 <span className="text-green-600 font-bold bg-green-50 px-1 rounded">2배 더 빨리</span> 찾아옵니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
-              <div className="flex gap-4">
-                <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">🌏</div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">호주 vs 한국 정밀 분석</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    단순한 조언이 아닙니다. 국가별 채용 트렌드와 나의 직무 역량을 대조하여 가장 유리한 고지를 점할 수 있는 국가를 추천해 드립니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
-              <div className="flex gap-4">
-                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">💰</div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">나의 몸값(연봉) 예측</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    한국과 호주에서 받을 수 있는 예상 연봉 범위를 확인하세요. 실시간 시장 데이터를 기반으로 당신의 가치를 정확히 측정합니다.
+                    숨겨진 몸값을 찾아보세요. 글로벌 시장 데이터는 당신이 받아야 할 **정당한 대우**가 무엇인지 생생하게 보여줄 것입니다.
                   </p>
                 </div>
               </div>
@@ -254,10 +255,10 @@ export default function Home() {
                   <span className="text-yellow-400 font-bold text-sm">★★★★★</span>
                 </div>
                 <p className="font-medium text-slate-300 text-sm italic">
-                  "한국에서는 연락이 없었는데, 분석 결과를 토대로 호주 기업에 맞춘 이력서를 내자마자 2주 만에 오퍼를 받았습니다."
+                  "이 분석을 보지 못했다면 저는 지금도 한국에서 연봉 3천만 원에 허덕이고 있었을 거예요. 이제 저는 호주에서 제 가치를 증명하며 살고 있습니다."
                 </p>
                 <p className="text-slate-400 text-xs mt-2 font-bold uppercase tracking-wider">
-                  — 김민준, 소프트웨어 엔지니어 (호주 취업 성공)
+                  — 박지우 (호주 유니콘 기업 이직 성공)
                 </p>
               </div>
             </div>

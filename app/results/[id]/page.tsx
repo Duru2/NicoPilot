@@ -194,7 +194,7 @@ export default function ResultsPage() {
                         {/* Detailed Analysis Content (Hidden/Blurred) */}
                         <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 mb-8">
                             <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                                <span className="text-2xl">⚡</span> 90일 합격 실행 플랜
+                                <span className="text-2xl">🔥</span> 당신의 운명을 바꿀 90일 합격 플랜
                             </h3>
                             <div className="space-y-4">
                                 {analysis.actionPlan.slice(0, 3).map((item, i) => (
@@ -202,7 +202,7 @@ export default function ResultsPage() {
                                         <div className={`w-2 h-full rounded-full ${item.priority === '높음' ? 'bg-red-400' : 'bg-yellow-400'}`}></div>
                                         <div>
                                             <div className="font-bold text-slate-800">{item.task}</div>
-                                            <div className="text-sm text-slate-500 mt-1">완료 목표: {item.deadline}</div>
+                                            <div className="text-sm text-slate-500 mt-1">이것을 해결하는 순간, 당신의 삶이 바뀝니다.</div>
                                         </div>
                                     </div>
                                 ))}
@@ -213,25 +213,28 @@ export default function ResultsPage() {
                     {/* CTA Overlay */}
                     {!isPaid && (
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg text-center z-20">
-                            <div className="bg-white/90 backdrop-blur-xl p-8 rounded-[2rem] shadow-2xl border border-white/50 transform transition-all hover:scale-105 duration-300">
-                                <div className="text-4xl mb-4 animate-bounce">🔓</div>
-                                <h2 className="text-3xl font-extrabold text-slate-900 mb-3">
-                                    나에게 유리한 시장을 공략하세요
+                            <div className="bg-white/95 backdrop-blur-2xl p-10 rounded-[2.5rem] shadow-[0_30px_60px_-12px_rgba(0,0,0,0.25)] border border-white/60 transform transition-all hover:scale-[1.02] duration-300">
+                                <div className="text-5xl mb-6 animate-bounce">🌉</div>
+                                <h2 className="text-3xl font-black text-slate-900 mb-4 leading-tight">
+                                    남겨진 95%의 정답을 <br /> 확인하시겠습니까?
                                 </h2>
-                                <p className="text-slate-600 mb-8 text-lg">
-                                    나의 스펙으로 어떤 국가에서 더 높은 연봉과 대우를 받을 수 있을지 <br />
-                                    전체 <strong>90일 밀착 실행 플랜</strong>을 통해 확인하세요.
+                                <p className="text-slate-600 mb-10 text-lg leading-relaxed font-medium">
+                                    지금 이 순간에도 당신의 경쟁자들은 <br />
+                                    최적화된 전략으로 앞서가고 있습니다. <br />
+                                    **일생일대의 기회**를 평범한 이력서 한 장 때문에 <br /> 날려버리지 마세요.
                                 </p>
                                 <button
                                     onClick={handleCheckout}
-                                    className="w-full bg-gradient-to-r from-slate-900 to-slate-800 text-white text-xl font-bold py-5 px-8 rounded-2xl shadow-xl hover:shadow-2xl hover:bg-slate-800 transition-all flex items-center justify-center gap-3"
+                                    className="w-full bg-gradient-to-br from-indigo-700 via-blue-800 to-slate-900 text-white text-2xl font-black py-6 px-8 rounded-2xl shadow-[0_20px_40px_-10px_rgba(30,58,138,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(30,58,138,0.5)] transition-all flex items-center justify-center gap-4 group active:scale-95"
                                 >
-                                    <span>프리미엄 리포트 잠금 해제</span>
-                                    <span className="bg-white/20 px-2 py-1 rounded text-sm">$29.00</span>
+                                    <span>내 꿈을 위한 투자 시작</span>
+                                    <span className="bg-white/20 px-3 py-1 rounded-lg text-sm border border-white/30">$29.00</span>
                                 </button>
-                                <p className="text-xs text-slate-400 mt-4">
-                                    100% 만족 보장. 안전한 통합 결제 시스템 이용.
-                                </p>
+                                <div className="mt-6 flex items-center justify-center gap-4 text-xs font-bold text-slate-400 tracking-wider">
+                                    <span>✅ 신용카드 결제</span>
+                                    <span>✅ 256-BIT 보안</span>
+                                    <span>✅ 즉시 리포트 제공</span>
+                                </div>
                             </div>
                         </div>
                     )}
