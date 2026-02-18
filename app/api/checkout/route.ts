@@ -5,7 +5,18 @@ export async function POST(request: NextRequest) {
     try {
         const { analysisId } = await request.json();
 
+        // Robust base URL determination
+        let baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+        if (!baseUrl) {
+            const host = request.headers.get('host');
+            const protocol = host?.includes('localhost') ? 'http' : 'https';
+            baseUrl = `${protocol}://${host}`;
+        }
+
+        console.log(`Creating Stripe session. Base URL: ${baseUrl}, Analysis ID: ${analysisId}`);
+
         if (!analysisId) {
+            console.error('Checkout failed: Analysis ID is missing');
             return NextResponse.json(
                 { error: 'Analysis ID is required' },
                 { status: 400 }
@@ -28,18 +39,19 @@ export async function POST(request: NextRequest) {
                 },
             ],
             mode: 'payment',
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL}/results/${analysisId}?success=true`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/results/${analysisId}?canceled=true`,
+            success_url: `${baseUrl}/results/${analysisId}?success=true`,
+            cancel_url: `${baseUrl}/results/${analysisId}?canceled=true`,
             metadata: {
                 analysisId,
             },
         });
 
+        console.log(`Stripe session created: ${session.id}`);
         return NextResponse.json({ sessionId: session.id, url: session.url });
-    } catch (error) {
-        console.error('Stripe error:', error);
+    } catch (error: any) {
+        console.error('Stripe Checkout Error:', error);
         return NextResponse.json(
-            { error: 'Failed to create checkout session' },
+            { error: error.message || 'Failed to create checkout session' },
             { status: 500 }
         );
     }
