@@ -29,7 +29,7 @@ export default function Home() {
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.error || 'Failed to extract PDF text');
+          throw new Error(data.error || 'PDF 텍스트 추출에 실패했습니다');
         }
         setResumeText(data.text);
       } else {
@@ -37,7 +37,7 @@ export default function Home() {
         setResumeText(text);
       }
     } catch (err: any) {
-      setError(`Vercel Debug Error: ${err.message || 'Failed to read file.'}`);
+      setError(`Vercel 디버그 에러: ${err.message || '파일을 읽는데 실패했습니다.'}`);
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -55,7 +55,7 @@ export default function Home() {
 
   const handleAnalyze = async () => {
     if (!resumeText.trim()) {
-      setError('Please upload a resume or paste your resume text');
+      setError('이력서를 업로드하거나 텍스트를 입력해주세요');
       return;
     }
 
@@ -72,13 +72,13 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error('Analysis failed');
+        throw new Error('분석에 실패했습니다');
       }
 
       const data = await response.json();
       router.push(`/results/${data.id}`);
     } catch (err) {
-      setError('Failed to analyze resume. Please try again.');
+      setError('이력서 분석에 실패했습니다. 다시 시도해주세요.');
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -104,18 +104,17 @@ export default function Home() {
         <div className="text-center mb-16 space-y-6 animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 rounded-full shadow-sm mb-4">
             <span className="text-xl">🚀</span>
-            <span className="text-sm font-bold text-blue-800 tracking-wide uppercase">Used by 10,000+ ambitious professionals</span>
+            <span className="text-sm font-bold text-blue-800 tracking-wide uppercase">10,000명 이상의 야심 찬 전문가들이 선택</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-tight">
-            Stop Guessing. <br />
-            Start <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Getting Hired.</span>
+            막연한 지원은 그만. <br />
+            나에게 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">더 유리한 시장</span>은 어디일까요?
           </h1>
 
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            The job market is uncertain. <span className="font-semibold text-slate-800">Don't trigger the ATS rejection algorithm.</span>
-            <br className="hidden md:block" />
-            Our AI analyzes 350M+ data points to double your interview chances.
+            호주 vs 한국, 내 스펙으로 어디서 더 승산이 있을까요? <br className="hidden md:block" />
+            <span className="font-semibold text-slate-800">3.5억 개의 데이터</span>를 기반으로 당신의 글로벌 경쟁력을 정밀 분석해 드립니다.
           </p>
         </div>
 
@@ -124,13 +123,13 @@ export default function Home() {
           {/* Left Column: Upload (Interactive & Cute) */}
           <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border border-white/50 relative group hover:shadow-2xl transition-all duration-300">
             <div className="absolute -top-4 -right-4 bg-yellow-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12 z-20">
-              FREE ANALYSIS ✨
+              무료 분석 ✨
             </div>
 
             <div className="relative z-10">
               <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
                 <span className="bg-blue-100 text-blue-600 p-3 rounded-2xl text-xl shadow-sm">📂</span>
-                Upload Your Resume
+                이력서 업로드
               </h2>
 
               <div
@@ -149,9 +148,9 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-lg font-bold text-slate-700">
-                      {isDragActive ? 'Drop it like it\'s hot! 🔥' : 'Drag & Drop your resume'}
+                      {isDragActive ? '필요한 정보를 읽고 있어요! 🔥' : '여기에 이력서를 올려주세요'}
                     </p>
-                    <p className="text-sm text-slate-400 mt-2 font-medium">PDF or TXT (Max 5MB)</p>
+                    <p className="text-sm text-slate-400 mt-2 font-medium">PDF 또는 TXT 형식 (최대 5MB)</p>
                   </div>
                 </div>
               </div>
@@ -161,14 +160,14 @@ export default function Home() {
                   <div className="w-full border-t border-slate-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white/0 backdrop-blur-sm text-slate-400 font-bold bg-[#F0F4F8]">OR PASTE TEXT</span>
+                  <span className="px-4 bg-white/0 backdrop-blur-sm text-slate-400 font-bold bg-[#F0F4F8]">또는 텍스트 직접 입력</span>
                 </div>
               </div>
 
               <textarea
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
-                placeholder="Paste your resume content here..."
+                placeholder="이력서 내용을 복사해서 붙여넣으셔도 됩니다..."
                 className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-400 resize-none transition-all text-sm font-medium"
               />
 
@@ -186,18 +185,18 @@ export default function Home() {
                 {isLoading ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>Analyzing...</span>
+                    <span>당신의 경쟁력을 분석 중...</span>
                   </>
                 ) : (
                   <>
-                    <span>Analyze For Free</span>
+                    <span>무료 분석 결과 확인하기</span>
                     <span className="group-hover:translate-x-1 transition-transform">→</span>
                   </>
                 )}
               </button>
 
               <p className="text-center text-xs text-slate-400 mt-4 font-medium flex items-center justify-center gap-1">
-                🔒 <span>Bank-grade encryption. Your data is safe.</span>
+                🔒 <span>모든 데이터는 안전하게 보호됩니다. 안심하고 이용하세요.</span>
               </p>
             </div>
           </div>
@@ -206,11 +205,11 @@ export default function Home() {
           <div className="space-y-6 pt-4">
             <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
               <div className="flex gap-4">
-                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">📈</div>
+                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">�</div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">Increase Success Rate</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">합격 확률 극대화</h3>
                   <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    Break through the uncertainty. Users who optimize with NicoPilot land interviews <span className="text-green-600 font-bold bg-green-50 px-1 rounded">2x faster</span>.
+                    내 스펙이 현지 시장에서 어떤 평가를 받는지 알고 계신가요? 전략적으로 접근하면 면접 기회가 <span className="text-green-600 font-bold bg-green-50 px-1 rounded">2배 더 빨리</span> 찾아옵니다.
                   </p>
                 </div>
               </div>
@@ -220,9 +219,9 @@ export default function Home() {
               <div className="flex gap-4">
                 <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">🌏</div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">Global Market Fit</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">호주 vs 한국 정밀 분석</h3>
                   <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    Applying to Australia or Korea? We decode the local hiring nuances so you don't look like an outsider.
+                    단순한 조언이 아닙니다. 국가별 채용 트렌드와 나의 직무 역량을 대조하여 가장 유리한 고지를 점할 수 있는 국가를 추천해 드립니다.
                   </p>
                 </div>
               </div>
@@ -232,9 +231,9 @@ export default function Home() {
               <div className="flex gap-4">
                 <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">💰</div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">Salary & Prediction</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">나의 몸값(연봉) 예측</h3>
                   <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    Stop leaving money on the table. Know your worth with real-time salary data calibrated to your skills.
+                    한국과 호주에서 받을 수 있는 예상 연봉 범위를 확인하세요. 실시간 시장 데이터를 기반으로 당신의 가치를 정확히 측정합니다.
                   </p>
                 </div>
               </div>
@@ -255,10 +254,10 @@ export default function Home() {
                   <span className="text-yellow-400 font-bold text-sm">★★★★★</span>
                 </div>
                 <p className="font-medium text-slate-300 text-sm italic">
-                  "I was getting 0 interviews for months. One scan with NicoPilot fixed my keywords and I got hired in 2 weeks."
+                  "한국에서는 연락이 없었는데, 분석 결과를 토대로 호주 기업에 맞춘 이력서를 내자마자 2주 만에 오퍼를 받았습니다."
                 </p>
                 <p className="text-slate-400 text-xs mt-2 font-bold uppercase tracking-wider">
-                  — Sarah K., Software Engineer
+                  — 김민준, 소프트웨어 엔지니어 (호주 취업 성공)
                 </p>
               </div>
             </div>
