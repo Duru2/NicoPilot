@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
                 },
             ],
             mode: 'payment',
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL}/report/${analysisId}?success=true`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/report/${analysisId}?canceled=true`,
+            success_url: `${process.env.NEXT_PUBLIC_APP_URL}/results/${analysisId}?success=true`,
+            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/results/${analysisId}?canceled=true`,
             metadata: {
                 analysisId,
             },

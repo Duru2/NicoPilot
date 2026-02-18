@@ -1,5 +1,5 @@
 import { openai } from '@/lib/openai';
-import { ParsedResume, ProjectAnalysis } from '@/types';
+import { ParsedResume } from '@/types';
 
 export async function parseResumeWithAI(resumeText: string): Promise<ParsedResume> {
     const prompt = `You are an expert resume analyzer. Analyze the following resume and extract structured information.
@@ -9,6 +9,9 @@ ${resumeText}
 
 Extract and return a JSON object with the following structure:
 {
+  "name": "full name of candidate",
+  "jobTitle": "current or most recent job title",
+  "summary": "brief professional summary (2-3 sentences)",
   "techStack": ["list of technologies, languages, frameworks"],
   "yearsOfExperience": number (total years of professional experience),
   "industry": "primary industry (e.g., fintech, e-commerce, healthcare, etc.)",
@@ -32,6 +35,9 @@ Be precise and thorough. If information is unclear, make reasonable inferences b
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         return {
+            name: 'Alex Johnson',
+            jobTitle: 'Senior Full Stack Engineer',
+            summary: 'Experienced full stack engineer with a focus on scalable web applications and cloud infrastructure.',
             techStack: ['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind CSS', 'PostgreSQL'],
             yearsOfExperience: 5,
             industry: 'Software Development',

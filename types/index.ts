@@ -1,4 +1,7 @@
 export interface ParsedResume {
+    name?: string;
+    jobTitle?: string;
+    summary?: string;
     techStack: string[];
     yearsOfExperience: number;
     industry: string;

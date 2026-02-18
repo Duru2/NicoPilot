@@ -46,51 +46,6 @@ Return JSON:
 
 Be specific, actionable, and realistic. Focus on practical steps they can take.`;
 
-  // Check if API key is configured
-  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY.includes('your_openai_api_key')) {
-    console.log('Using mock report generator');
-    // Simulate delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    return {
-      marketFitAnalysis: "Based on your 5 years of experience with React and Node.js, you have a strong profile for both markets. \n\nIn Australia, there is high demand for Senior Full Stack developers, but visa sponsorship can be competitive. Your English proficiency will be a key differentiator.\n\nIn Korea, your tech stack is standard for modern startups and major tech companies (Naver, Kakao). The market is more accessible, but work-life balance may vary.",
-      riskFactors: [
-        "Australia: Visa sponsorship requirements rely heavily on verified work history",
-        "Korea: Competitive market for mid-senior roles in top tier companies",
-        "General: Keeping up with rapid changes in Next.js ecosystem"
-      ],
-      salaryPrediction: {
-        australia: { min: 110000, max: 150000, currency: "AUD" },
-        korea: { min: 60000000, max: 90000000, currency: "KRW" }
-      },
-      skillGapAnalysis: [
-        "Cloud Architecture (AWS/GCP) certification would boost Australia prospects",
-        "System Design interview preparation needed for senior roles",
-        "Business English communication for Australian workplace culture"
-      ],
-      actionPlan: [
-        {
-          day: 7,
-          title: "Optimize LinkedIn Profile",
-          description: "Update headline and summary to target Australian recruiters. Set location to 'Open to work' in Sydney/Melbourne.",
-          priority: "high"
-        },
-        {
-          day: 14,
-          title: "Technical Resume Audit",
-          description: "Rewrite bullet points to focus on business impact and metrics (e.g., 'Reduced load time by 40%').",
-          priority: "high"
-        },
-        {
-          day: 30,
-          title: "Apply to 5 Global Companies",
-          description: "Target companies in Korea with global presence offering easier transfer opportunities.",
-          priority: "medium"
-        }
-      ]
-    };
-  }
-
   const response = await openai.chat.completions.create({
     model: 'gpt-4o',
     messages: [

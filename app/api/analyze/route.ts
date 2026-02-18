@@ -39,12 +39,30 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        return NextResponse.json({
+        // Transform to new UI structure
+        const responseData = {
             id: data.id,
-            parsedResume,
-            marketScore,
-            isPaid: false,
-        });
+            candidateName: parsedResume.name || 'Candidate',
+            jobTitle: parsedResume.jobTitle || 'Tech Professional',
+            totalScore: Math.round((marketScore.australiaScore + marketScore.koreaScore) / 2),
+            summary: parsedResume.summary || 'A detailed analysis of your profile.',
+            salary: {
+                au: { currency: 'AUD', min: 85000, max: 130000, median: 105000 }, // Mock data for now, would come from scorer
+                kr: { currency: 'KRW', min: 45000000, max: 80000000, median: 60000000 },
+            },
+            marketFit: {
+                au: { score: marketScore.australiaScore, topSkills: parsedResume.techStack, missingSkills: [] },
+                kr: { score: marketScore.koreaScore, topSkills: parsedResume.techStack, missingSkills: [] },
+            },
+            actionPlan: [
+                { priority: 'High', task: 'Update LinkedIn profile for AU market', deadline: 'Day 3' },
+                { priority: 'Medium', task: 'Learn React Server Components', deadline: 'Day 14' },
+                { priority: 'High', task: 'Apply to Global Talent Visa', deadline: 'Day 30' },
+            ],
+            createdAt: new Date().toISOString(),
+        };
+
+        return NextResponse.json(responseData);
     } catch (error) {
         console.error('Analysis error:', error);
         return NextResponse.json(
