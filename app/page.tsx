@@ -37,7 +37,7 @@ export default function Home() {
         setResumeText(text);
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to read file. Please try again.');
+      setError(`Vercel Debug Error: ${err.message || 'Failed to read file.'}`);
       console.error(err);
     } finally {
       setIsLoading(false);
