@@ -66,12 +66,15 @@ export default function ResultsPage() {
                 if (!response.ok) throw new Error('분석 결과를 가져오는데 실패했습니다');
                 const data = await response.json();
 
-                // Translate priority if coming from server in English
+                // Translate priority if coming from server in English or handle Korean
                 if (data.actionPlan) {
-                    data.actionPlan = data.actionPlan.map((item: any) => ({
-                        ...item,
-                        priority: item.priority === 'High' ? '높음' : item.priority === 'Medium' ? '중간' : '낮음'
-                    }));
+                    data.actionPlan = data.actionPlan.map((item: any) => {
+                        let priority = item.priority;
+                        if (priority === 'High' || priority === '높음') priority = '높음';
+                        else if (priority === 'Medium' || priority === '중간') priority = '중간';
+                        else priority = '낮음';
+                        return { ...item, priority };
+                    });
                 }
 
                 setAnalysis(data);
