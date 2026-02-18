@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { extractTextFromPDF } from '@/lib/pdf-utils';
 
+export const maxDuration = 60; // 5 minutes (max for Pro, use 60 for Hobby if needed)
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
     console.log('API Request received: /api/extract-pdf');
     try {

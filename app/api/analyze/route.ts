@@ -3,6 +3,9 @@ import { parseResumeWithAI } from '@/lib/agents/resume-parser';
 import { calculateMarketScore } from '@/lib/agents/market-scorer';
 import { supabase } from '@/lib/supabase';
 
+export const maxDuration = 60; // 5 minutes
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
     try {
         const { resumeText } = await request.json();

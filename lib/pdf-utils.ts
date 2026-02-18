@@ -12,15 +12,31 @@ if (typeof Promise.withResolvers === 'undefined') {
     };
 }
 
-const { PDFParse } = require('pdf-parse');
+const pdfParseLib = require('pdf-parse');
+// Handle potential different export styles (CommonJS, ES modules, or bundled)
+const PDFParse = pdfParseLib.PDFParse || pdfParseLib.default || pdfParseLib;
 
 export async function extractTextFromPDF(file: File): Promise<string> {
     try {
+        console.log(`PDF Extraction start. Lib type: ${typeof pdfParseLib}, PDFParse type: ${typeof PDFParse}`);
+
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const parser = new PDFParse({ data: buffer });
-        const data = await parser.getText();
-        await parser.destroy();
+
+        // Check if PDFParse is a class/constructor or a function that returns a promise
+        let data;
+        if (PDFParse.prototype && PDFParse.prototype.constructor) {
+            // It looks like a class (as used locally)
+            const parser = new PDFParse({ data: buffer });
+            data = await parser.getText();
+            if (parser.destroy) await parser.destroy();
+        } else if (typeof PDFParse === 'function') {
+            // Standard pdf-parse function usage: pdf(buffer)
+            data = await PDFParse(buffer);
+        } else {
+            throw new Error(`Unknown PDFParse type: ${typeof PDFParse}`);
+        }
+
         return data.text;
     } catch (error) {
         console.error('PDF Extraction Error:', error);
