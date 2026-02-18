@@ -2,6 +2,8 @@
 
 AI-powered career analysis tool that helps tech professionals evaluate their job market fit in South Korea vs Australia.
 
+**Current Status: MVP Complete (Feb 2026)**
+
 ## 🎯 Features
 
 - **Resume Analysis**: Upload PDF or paste text to extract tech stack, experience, and projects
