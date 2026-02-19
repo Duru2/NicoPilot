@@ -143,9 +143,9 @@ export default function ResultsPage() {
 
                 {/* Hero / Report Title */}
                 <div className="text-center space-y-4 border-b border-slate-100 pb-12">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8F8EE] text-[#00A832] rounded-full text-sm font-bold">
-                        <span className="w-2 h-2 rounded-full bg-[#00C73C] animate-pulse"></span>
-                        AI 정밀 진단 완료
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full text-xs font-bold tracking-wide text-slate-600 mb-6">
+                        <span className="w-2 h-2 rounded-full bg-[#00C73C]"></span>
+                        NicoPilot Career Institute Methodology v2.0
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
                         <span className="text-[#00C73C]">한국 vs 호주</span> <br />
