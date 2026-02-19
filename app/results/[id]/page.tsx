@@ -3,43 +3,22 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
-
-// Define strict types for our data structure
-interface SalaryData {
-    currency: string;
-    min: number;
-    max: number;
-    median: number;
-}
-
-interface ActionItem {
-    priority: '높음' | '중간' | '낮음';
-    task: string;
-    deadline: string;
-}
-
-interface MarketFit {
-    score: number;
-    demandLevel: '매우 높음' | '높음' | '중간' | '낮음';
-    topSkills: string[];
-    missingSkills: string[];
-}
+import { ParsedResume, MarketScore, StrategyReport } from '@/types';
+import PositionDiagnosisSection from '@/components/analysis/PositionDiagnosis';
+import MarketComparisonSection from '@/components/analysis/MarketComparison';
+import RiskMapSection from '@/components/analysis/RiskMap';
+import SkillRoadmapSection from '@/components/analysis/SkillRoadmap';
+import ExecutionPlanSection from '@/components/analysis/ExecutionPlan';
+import VisaAnalysisSection from '@/components/analysis/VisaAnalysis';
+import ResumeStrategySection from '@/components/analysis/ResumeStrategy';
+import CompanyRecommendationsSection from '@/components/analysis/CompanyRecommendations';
+import dynamic from 'next/dynamic';
 
 interface AnalysisData {
     id: string;
-    candidateName: string;
-    jobTitle: string;
-    totalScore: number;
-    summary: string;
-    salary: {
-        au: SalaryData;
-        kr: SalaryData;
-    };
-    marketFit: {
-        au: MarketFit;
-        kr: MarketFit;
-    };
-    actionPlan: ActionItem[];
+    parsedResume: ParsedResume;
+    marketScore: MarketScore;
+    report: StrategyReport;
     createdAt: string;
 }
 
@@ -65,18 +44,6 @@ export default function ResultsPage() {
                 const response = await fetch(`/api/analysis/${id}`);
                 if (!response.ok) throw new Error('분석 결과를 가져오는데 실패했습니다');
                 const data = await response.json();
-
-                // Translate priority if coming from server in English or handle Korean
-                if (data.actionPlan) {
-                    data.actionPlan = data.actionPlan.map((item: any) => {
-                        let priority = item.priority;
-                        if (priority === 'High' || priority === '높음') priority = '높음';
-                        else if (priority === 'Medium' || priority === '중간') priority = '중간';
-                        else priority = '낮음';
-                        return { ...item, priority };
-                    });
-                }
-
                 setAnalysis(data);
             } catch (err) {
                 setError('분석 결과를 불러오지 못했습니다');
@@ -124,160 +91,158 @@ export default function ResultsPage() {
             <div className="min-h-screen flex items-center justify-center bg-[#F0F4F8]">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-                    <p className="text-slate-500 font-medium animate-pulse">커리어 로드맵을 생성 중입니다...</p>
+                    <p className="text-slate-500 font-medium animate-pulse">상세 커리어 리포트를 생성 중입니다...</p>
                 </div>
             </div>
         );
     }
 
-    if (error || !analysis) {
+    if (error || !analysis || !analysis.report) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#F0F4F8]">
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-red-100 text-center max-w-md">
                     <div className="text-4xl mb-4">😿</div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-2">문제가 발생했습니다.</h3>
-                    <p className="text-slate-500 mb-6">{error || '분석을 찾을 수 없습니다'}</p>
-                    <button onClick={() => window.location.href = '/'} className="px-6 py-2 bg-slate-900 text-white rounded-lg font-bold hover:bg-slate-800 transition">다시 시도하기</button>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">데이터가 없습니다.</h3>
+                    <p className="text-slate-500 mb-6">{error || '분석 리포트를 찾을 수 없습니다. 다시 시도해주세요.'}</p>
+                    <button onClick={() => window.location.href = '/'} className="px-6 py-2 bg-slate-900 text-white rounded-lg font-bold hover:bg-slate-800 transition">홈으로 돌아가기</button>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-[#F0F4F8] font-sans overflow-x-hidden">
-            {/* Background Blobs (Persistent Theme) */}
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 pointer-events-none"></div>
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 pointer-events-none"></div>
+        <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-green-100 selection:text-green-900">
+            {/* 1. Global Navigation Bar (Academy Style) - Consistent with Main Page */}
+            <header className="border-b border-slate-200 sticky top-0 bg-white/95 backdrop-blur z-50">
+                <div className="container mx-auto px-4 h-16 flex items-center justify-between max-w-6xl">
+                    <div className="flex items-center gap-8">
+                        {/* Logo */}
+                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
+                            <span className="text-2xl font-black text-[#00C73C] tracking-tighter">NicoPilot</span>
+                            <span className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest hidden sm:block">Career Institute</span>
+                        </div>
 
-            <main className="container mx-auto px-4 py-12 max-w-5xl relative z-10">
+                        {/* Nav Links */}
+                        <nav className="hidden md:flex items-center gap-6 text-[15px] font-bold text-slate-700">
+                            <a href="#" className="hover:text-[#00C73C] transition-colors">강사진 소개</a>
+                            <a href="#" className="hover:text-[#00C73C] transition-colors">합격수기 <span className="text-red-500 text-xs">N</span></a>
+                            <a href="#" className="hover:text-[#00C73C] transition-colors">커리큘럼</a>
+                            <a href="#" className="hover:text-[#00C73C] transition-colors">해외취업 가이드</a>
+                        </nav>
+                    </div>
 
-                {/* Hero Header */}
-                <div className="text-center mb-12 space-y-4">
-                    <div className="flex justify-center mb-6 cursor-pointer" onClick={() => window.location.href = '/'}>
-                        <img src="/logo.svg" alt="NicoPilot" className="h-12 hover:scale-105 transition-transform" />
+                    <div className="flex items-center gap-3">
+                        <div className="text-sm font-bold text-slate-500">
+                            {analysis.parsedResume.name || '지원자'}님 <span className="text-[#00C73C]">분석 리포트</span>
+                        </div>
                     </div>
-                    <div className="inline-block px-4 py-1.5 bg-white/50 backdrop-blur border border-blue-100 text-blue-700 rounded-full text-sm font-bold shadow-sm mb-2">
-                        🎉 {analysis.candidateName}님 맞춤형 시장 분석 완료
+                </div>
+            </header>
+
+            <main className="container mx-auto px-4 py-12 max-w-5xl space-y-12">
+
+                {/* Hero / Report Title */}
+                <div className="text-center space-y-4 border-b border-slate-100 pb-12">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8F8EE] text-[#00A832] rounded-full text-sm font-bold">
+                        <span className="w-2 h-2 rounded-full bg-[#00C73C] animate-pulse"></span>
+                        AI 정밀 진단 완료
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
-                        나에게 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">더 유리한 국가</span>는 어디일까요?
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        <span className="text-[#00C73C]">한국 vs 호주</span> <br />
+                        커리어 전략 리포트
                     </h1>
+                    <p className="text-slate-500 text-lg">
+                        {analysis.parsedResume.name}님의 이력서를 바탕으로 <br className="md:hidden" />
+                        <span className="font-bold text-slate-800">두 국가의 시장 경쟁력</span>을 비교 분석했습니다.
+                    </p>
                 </div>
 
-                {/* Main Score Card */}
-                <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/60 p-8 mb-8 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-                    <div className="grid md:grid-cols-2 gap-8 items-center">
-                        <div className="text-center md:text-left space-y-2">
-                            <p className="text-slate-500 font-medium uppercase tracking-wider text-sm">종합 시장 매칭 점수</p>
-                            <div className="flex items-baseline gap-2 justify-center md:justify-start">
-                                <span className="text-7xl font-black text-slate-900">{analysis.totalScore}</span>
-                                <span className="text-2xl text-slate-400 font-bold">/ 100</span>
-                            </div>
-                            <p className="text-slate-600 text-lg leading-relaxed">{analysis.summary}</p>
-                        </div>
+                {/* 1. Position Diagnosis */}
+                <PositionDiagnosisSection data={analysis.report.diagnosis} />
 
-                        {/* Interactive Progress Indicators (Cute Style) */}
-                        <div className="space-y-6">
-                            <MarketScoreRow country="호주 취업 우위" score={analysis.marketFit.au.score} color="bg-blue-500" />
-                            <MarketScoreRow country="한국 취업 우위" score={analysis.marketFit.kr.score} color="bg-pink-500" />
-                        </div>
-                    </div>
-                </div>
+                {/* 2. Market Comparison */}
+                <MarketComparisonSection data={analysis.report.marketComparison} />
 
-                {/* Free Preview Grid */}
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
-                    <SalaryCard country="호주" data={analysis.salary.au} flag="🇦🇺" currencyLabel="달러" />
-                    <SalaryCard country="한국" data={analysis.salary.kr} flag="🇰🇷" currencyLabel="원" />
-                </div>
+                {/* 3. Risk Map */}
+                <RiskMapSection risks={analysis.report.riskMap} />
 
-                {/* PAYWALL SECTION (High Conversion) */}
+                {/* 4. Skill Gap & Roadmap */}
+                <SkillRoadmapSection
+                    australia={analysis.report.skillGap.australia}
+                    korea={analysis.report.skillGap.korea}
+                />
+
+                {/* PAYWALL BLUR AREA STARTS HERE */}
                 <div className="relative group">
-                    <div className={`transition-all duration-500 ${!isPaid ? 'blur-md opacity-80 select-none pointer-events-none' : ''}`}>
-                        {/* Detailed Analysis Content (Hidden/Blurred) */}
-                        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 mb-8">
-                            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                                <span className="text-2xl">🔥</span> 당신의 운명을 바꿀 90일 합격 플랜
-                            </h3>
-                            <div className="space-y-4">
-                                {analysis.actionPlan.slice(0, 3).map((item, i) => (
-                                    <div key={i} className="flex gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                        <div className={`w-2 h-full rounded-full ${item.priority === '높음' ? 'bg-red-400' : 'bg-yellow-400'}`}></div>
-                                        <div>
-                                            <div className="font-bold text-slate-800">{item.task}</div>
-                                            <div className="text-sm text-slate-500 mt-1">이것을 해결하는 순간, 당신의 삶이 바뀝니다.</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                    <div className={`transition-all duration-500 space-y-12 ${!isPaid ? 'blur-lg opacity-60 select-none pointer-events-none h-[800px] overflow-hidden' : ''}`}>
+
+                        {/* 5. Resume Strategy */}
+                        <ResumeStrategySection strategy={analysis.report.resumeStrategy} />
+
+                        {/* 6. Execution Plan */}
+                        <ExecutionPlanSection plan={analysis.report.executionPlan} />
+
+                        {/* 7. Company Recommendations */}
+                        <CompanyRecommendationsSection data={analysis.report.companyFit} />
+
+                        {/* 8. Visa Analysis */}
+                        <VisaAnalysisSection data={analysis.report.visaAnalysis} />
+
                     </div>
 
                     {/* CTA Overlay */}
                     {!isPaid && (
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg text-center z-20">
-                            <div className="bg-white/95 backdrop-blur-2xl p-10 rounded-[2.5rem] shadow-[0_30px_60px_-12px_rgba(0,0,0,0.25)] border border-white/60 transform transition-all hover:scale-[1.02] duration-300">
-                                <div className="text-5xl mb-6 animate-bounce">🌉</div>
-                                <h2 className="text-3xl font-black text-slate-900 mb-4 leading-tight">
-                                    남겨진 95%의 정답을 <br /> 확인하시겠습니까?
+                        <div className="absolute top-[200px] left-1/2 -translate-x-1/2 w-full max-w-lg text-center z-20">
+                            <div className="bg-white/95 backdrop-blur-2xl p-10 rounded-2xl shadow-[0_20px_60px_-10px_rgba(0,199,60,0.15)] border border-[#00C73C]/20 transform transition-all hover:scale-[1.01] duration-300">
+                                <div className="text-4xl mb-6">🔒</div>
+                                <h2 className="text-2xl font-bold text-slate-900 mb-2">
+                                    <span className="text-[#00C73C]">합격 시크릿 노트</span>를 열어보세요
                                 </h2>
-                                <p className="text-slate-600 mb-10 text-lg leading-relaxed font-medium">
-                                    지금 이 순간에도 당신의 경쟁자들은 <br />
-                                    최적화된 전략으로 앞서가고 있습니다. <br />
-                                    **일생일대의 기회**를 평범한 이력서 한 장 때문에 <br /> 날려버리지 마세요.
-                                </p>
+                                <p className="text-slate-500 text-sm mb-8">상위 1% 합격자들의 데이터로 검증된 전략입니다.</p>
+
+                                <div className="space-y-3 mb-8 text-left bg-slate-50 p-6 rounded-xl border border-slate-100 text-sm">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 rounded-full bg-[#E8F8EE] text-[#00C73C] flex items-center justify-center text-xs font-bold">V</div>
+                                        <span className="font-bold text-slate-700">90일 합격 실행 플랜 (주별 가이드)</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 rounded-full bg-[#E8F8EE] text-[#00C73C] flex items-center justify-center text-xs font-bold">V</div>
+                                        <span className="font-bold text-slate-700">나에게 딱 맞는 히든 기업 리스트</span>
+                                    </div>
+                                    <div className="space-y-3 pl-8 border-l-2 border-slate-100 ml-2.5 my-3">
+                                        {analysis.report.executionPlan.month1.steps.slice(0, 3).map((item, i) => (
+                                            <div key={i} className="text-xs text-slate-500">
+                                                <span className="font-bold text-slate-700 block mb-0.5">{item.task}</span>
+                                                {item.description}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 rounded-full bg-[#E8F8EE] text-[#00C73C] flex items-center justify-center text-xs font-bold">V</div>
+                                        <span className="font-bold text-slate-700">비자 승인 확률을 높이는 전략</span>
+                                    </div>
+                                </div>
+
                                 <button
                                     onClick={handleCheckout}
-                                    className="w-full bg-gradient-to-br from-indigo-700 via-blue-800 to-slate-900 text-white text-2xl font-black py-6 px-8 rounded-2xl shadow-[0_20px_40px_-10px_rgba(30,58,138,0.4)] hover:shadow-[0_25px_50px_-12px_rgba(30,58,138,0.5)] transition-all flex items-center justify-center gap-4 group active:scale-95"
+                                    className="w-full bg-[#00C73C] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#00b035] transition-all shadow-md shadow-green-200 flex items-center justify-center gap-3"
                                 >
-                                    <span>내 꿈을 위한 투자 시작</span>
-                                    <span className="bg-white/20 px-3 py-1 rounded-lg text-sm border border-white/30">$29.00</span>
+                                    <span>전체 리포트 열람하기</span>
+                                    <span className="bg-white/20 px-2 py-0.5 rounded text-sm font-semibold">29,000원</span>
                                 </button>
-                                <div className="mt-6 flex items-center justify-center gap-4 text-xs font-bold text-slate-400 tracking-wider">
-                                    <span>✅ 신용카드 결제</span>
-                                    <span>✅ 256-BIT 보안</span>
-                                    <span>✅ 즉시 리포트 제공</span>
-                                </div>
+                                <p className="mt-4 text-xs text-slate-400 font-medium">
+                                    불만족 시 100% 환불 보장
+                                </p>
                             </div>
                         </div>
                     )}
                 </div>
 
             </main>
-        </div>
-    );
-}
 
-function MarketScoreRow({ country, score, color }: { country: string, score: number, color: string }) {
-    return (
-        <div>
-            <div className="flex justify-between mb-2">
-                <span className="font-bold text-slate-700">{country}</span>
-                <span className="font-bold text-slate-900">{score}%</span>
-            </div>
-            <div className="h-4 bg-slate-100 rounded-full overflow-hidden">
-                <div
-                    className={`h-full ${color} transition-all duration-1000 ease-out rounded-full`}
-                    style={{ width: `${score}%` }}
-                ></div>
-            </div>
-        </div>
-    );
-}
-
-function SalaryCard({ country, data, flag, currencyLabel }: { country: string, data: SalaryData, flag: string, currencyLabel: string }) {
-    return (
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-            <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">{flag}</span>
-                <h3 className="font-bold text-slate-700">{country} 예상 연봉</h3>
-            </div>
-            <div className="text-3xl font-black text-slate-900 mb-1">
-                {data.median.toLocaleString()}{currencyLabel}
-            </div>
-            <div className="text-sm text-slate-500 font-medium">
-                연봉 중앙값 ({data.currency})
-            </div>
+            <footer className="bg-slate-50 border-t border-slate-200 py-12 text-center text-slate-400 text-sm">
+                © 2026 NicoPilot Career Institute. All rights reserved.
+            </footer>
         </div>
     );
 }

@@ -95,204 +95,177 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F4F8] relative overflow-hidden font-sans">
-      {/* Background Blobs (Soft & Cute) */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-8 left-20 w-[500px] h-[500px] bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
-
-      <div className="relative container mx-auto px-4 py-16 max-w-6xl">
-
-        {/* Header / Nav */}
-        <nav className="flex justify-center mb-16">
-          <div className="bg-white/70 backdrop-blur-md px-6 py-3 rounded-full shadow-sm border border-white/50 hover:scale-105 transition-transform duration-300">
-            <img src="/logo.svg" alt="NicoPilot" className="h-10" />
-          </div>
-        </nav>
-
-        <div className="text-center mb-16 space-y-6 animate-fade-in-up">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 rounded-full shadow-sm mb-4">
-            <span className="text-xl">🚀</span>
-            <span className="text-sm font-bold text-blue-800 tracking-wide uppercase">10,000명 이상의 야심 찬 전문가들이 선택</span>
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-tight">
-            당신의 가치가 <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">제대로 평가받는 곳</span>은 어디일까요?
-          </h1>
-
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            반복되는 탈락, 막연한 불안감... 당신의 잘못이 아닙니다. <br className="hidden md:block" />
-            <span className="font-semibold text-slate-800">한국과 호주</span> 중 당신의 열정을 기다리는 진짜 시장을 찾아보세요. <br />
-            당신의 다음 10년이 여기서 결정될 수 있습니다.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-
-          {/* Left Column: Upload (Interactive & Cute) */}
-          <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-8 shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] border border-white/50 relative group hover:shadow-2xl transition-all duration-300">
-            <div className="absolute -top-4 -right-4 bg-yellow-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12 z-20">
-              오늘만 무료 분석 ✨
+    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-green-100 selection:text-green-900">
+      {/* 1. Global Navigation Bar (Academy Style) */}
+      <header className="border-b border-slate-200 sticky top-0 bg-white/95 backdrop-blur z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between max-w-6xl">
+          <div className="flex items-center gap-8">
+            {/* Logo */}
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
+              <span className="text-2xl font-black text-[#00C73C] tracking-tighter">NicoPilot</span>
+              <span className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest hidden sm:block">Career Institute</span>
             </div>
 
-            <div className="relative z-10">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                <span className="bg-blue-100 text-blue-600 p-3 rounded-2xl text-xl shadow-sm">📂</span>
-                인생의 전환점, 시뮬레이션
-              </h2>
+            {/* Nav Links */}
+            <nav className="hidden md:flex items-center gap-6 text-[15px] font-bold text-slate-700">
+              <a href="#" className="hover:text-[#00C73C] transition-colors">강사진 소개</a>
+              <a href="#" className="hover:text-[#00C73C] transition-colors">합격수기 <span className="text-red-500 text-xs">N</span></a>
+              <a href="#" className="hover:text-[#00C73C] transition-colors">커리큘럼</a>
+              <a href="#" className="hover:text-[#00C73C] transition-colors">해외취업 가이드</a>
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button className="text-slate-500 text-sm font-medium hover:text-slate-800">로그인</button>
+            <div className="w-px h-3 bg-slate-300"></div>
+            <button className="text-slate-500 text-sm font-medium hover:text-slate-800">회원가입</button>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 max-w-6xl py-12">
+
+        {/* 2. Main Layout: 2-Column Grid */}
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
+
+          {/* LEFT COLUMN: Persuasive Copy & Success Stories */}
+          <div className="lg:col-span-7 space-y-10 pt-4">
+
+            {/* Hero Copy */}
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E8F8EE] text-[#00A832] rounded-md text-sm font-bold">
+                <span className="w-2 h-2 rounded-full bg-[#00C73C] animate-pulse"></span>
+                2026년 해외취업 대비반 모집 중
+              </div>
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-[1.25] tracking-tight">
+                연봉 3,000에서 <br />
+                <span className="text-[#00C73C] underline decoration-4 decoration-green-200 underline-offset-4">연봉 1억 글로벌 인재</span>로.
+              </h1>
+              <p className="text-lg text-slate-600 font-medium leading-relaxed">
+                한국에서의 경쟁이 지치시나요? <br className="hidden md:block" />
+                당신의 경력을 호주 시장 관점에서 재해석해드립니다. <br />
+                <span className="bg-yellow-100 px-1 font-bold text-slate-900">데이터 기반 커리어 진단</span>으로 합격 확률을 높이세요.
+              </p>
+            </div>
+
+            {/* Success Metrics / Badges */}
+            <div className="flex flex-wrap gap-4 border-y border-slate-100 py-6">
+              <div className="flex items-center gap-3 px-4">
+                <div className="text-3xl font-black text-slate-900">3,482<span className="text-sm font-medium text-slate-500 ml-1">명</span></div>
+                <div className="text-xs text-slate-500 font-bold uppercase leading-tight">누적<br />진단</div>
+              </div>
+              <div className="w-px h-10 bg-slate-200"></div>
+              <div className="flex items-center gap-3 px-4">
+                <div className="text-3xl font-black text-slate-900">92<span className="text-sm font-medium text-slate-500 ml-1">%</span></div>
+                <div className="text-xs text-slate-500 font-bold uppercase leading-tight">만족도<br />평점</div>
+              </div>
+              <div className="w-px h-10 bg-slate-200"></div>
+              <div className="flex items-center gap-3 px-4">
+                <div className="text-3xl font-black text-[#00C73C]">A+</div>
+                <div className="text-xs text-slate-500 font-bold uppercase leading-tight">데이터<br />정확도</div>
+              </div>
+            </div>
+
+            {/* Best Review / Success Story */}
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded">호주 이직 성공</span>
+                  <span className="text-slate-500 text-xs font-bold">박O우 님 (7년차 백엔드)</span>
+                </div>
+                <div className="flex text-yellow-400 text-xs">★★★★★</div>
+              </div>
+              <p className="text-slate-700 text-sm font-medium leading-relaxed mb-3">
+                "막연하게 호주 가고 싶다 생각만 했는데, 이 리포트를 보고 당장 무엇을 준비해야 할지 명확해졌습니다. 특히 비자 점수 분석과 회사 추천이 소름돋게 정확했어요. 3개월 만에 시드니 핀테크 기업 오퍼 받았습니다!"
+              </p>
+              <div className="text-xs text-slate-400 font-medium">2026.01.15 작성</div>
+            </div>
+
+            {/* Trust Logos */}
+            <div className="pt-4 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+              <p className="text-xs font-bold text-slate-400 mb-3 ml-1">주요 분석 대상 기업 데이터베이스</p>
+              <div className="flex items-center gap-6">
+                <img src="https://logo.clearbit.com/google.com" className="h-6" alt="Google" />
+                <img src="https://logo.clearbit.com/atlassian.com" className="h-5" alt="Atlassian" />
+                <img src="https://logo.clearbit.com/canva.com" className="h-6" alt="Canva" />
+                <img src="https://logo.clearbit.com/naver.com" className="h-5" alt="Naver" />
+                <img src="https://logo.clearbit.com/kakao.com" className="h-5" alt="Kakao" />
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT COLUMN: Application Form (Consultation Box) */}
+          <div className="lg:col-span-5 relative">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-5px_rgba(0,0,0,0.1)] border border-slate-200 p-6 sticky top-24">
+              <div className="bg-[#00C73C] text-white text-center py-3 rounded-t-xl -mx-6 -mt-6 mb-6">
+                <h3 className="font-bold text-lg">무료 커리어 진단 신청</h3>
+                <p className="text-xs opacity-90 font-medium mt-0.5">매일 선착순 50명 한정 무료</p>
+              </div>
 
               <div
                 {...getRootProps()}
-                className={`border-3 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 ${isDragActive
-                  ? 'border-blue-500 bg-blue-50/50 scale-[1.02]'
-                  : 'border-slate-200 hover:border-blue-400 hover:bg-slate-50'
+                className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 mb-6 ${isDragActive
+                    ? 'border-[#00C73C] bg-green-50'
+                    : 'border-slate-300 hover:border-[#00C73C] hover:bg-slate-50'
                   }`}
               >
                 <input {...getInputProps()} />
-                <div className="space-y-4">
-                  <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center transition-colors shadow-sm ${isDragActive ? 'bg-blue-100 text-blue-600' : 'bg-white text-slate-400'}`}>
-                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-lg font-bold text-slate-700">
-                      {isDragActive ? '당신의 꿈을 읽고 있어요... 🔥' : '이력서를 올리고 미래를 확인하세요'}
-                    </p>
-                    <p className="text-sm text-slate-400 mt-2 font-medium">당신의 가능성을 PDF 또는 TXT로 보여주세요</p>
-                  </div>
+                <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
                 </div>
+                <p className="font-bold text-slate-700 text-sm mb-1">
+                  {isDragActive ? '파일을 놓아주세요!' : '이력서 파일 업로드 (PDF/TXT)'}
+                </p>
+                <p className="text-xs text-slate-400">클릭하거나 파일을 드래그하세요</p>
               </div>
 
-              <div className="relative my-8">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white/0 backdrop-blur-sm text-slate-400 font-bold bg-[#F0F4F8]">또는 마음을 담아 직접 입력</span>
-                </div>
+              <div className="text-center text-xs text-slate-400 font-bold mb-4 flex items-center gap-2 justify-center after:content-[''] after:h-px after:w-full after:bg-slate-200 before:content-[''] before:h-px before:w-full before:bg-slate-200">
+                <span className="shrink-0 px-2">또는 직접 입력</span>
               </div>
 
               <textarea
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
-                placeholder="지금까지 걸어온 길을 여기에 적어주세요..."
-                className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-400 resize-none transition-all text-sm font-medium"
+                placeholder="경력/프로젝트 내용을 여기에 붙여넣으세요..."
+                className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#00C73C] focus:border-transparent outline-none resize-none text-sm mb-4 placeholder:text-slate-400"
               />
 
               {error && (
-                <div className="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm flex items-center gap-2 animate-shake font-semibold">
-                  <span>⚠️</span> {error}
+                <div className="mb-4 p-3 bg-red-50 text-red-600 text-xs font-bold rounded-lg flex items-center gap-2">
+                  <span className="text-base">⚠️</span> {error}
                 </div>
               )}
 
               <button
                 onClick={handleAnalyze}
                 disabled={isLoading || !resumeText.trim()}
-                className="w-full mt-6 bg-gradient-to-r from-red-500 to-rose-600 text-white py-4 px-8 rounded-xl font-bold text-lg hover:from-red-600 hover:to-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-red-500/30 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 group-hover:scale-[1.02] animate-pulse-slow"
+                className="w-full bg-[#00C73C] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#00b035] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-green-200 active:transform active:scale-[0.98]"
               >
                 {isLoading ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>당신의 새로운 시작을 설계 중...</span>
-                  </>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>분석 중입니다...</span>
+                  </div>
                 ) : (
-                  <>
-                    <span>내 미래 설계도 확인하기</span>
-                    <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </>
+                  '진단 결과 확인하기'
                 )}
               </button>
-
-              <p className="text-center text-xs text-slate-400 mt-4 font-medium flex items-center justify-center gap-1">
-                🔒 <span>나의 커리어 데이터는 비공개로 안전하게 처리됩니다.</span>
+              <p className="text-center text-[10px] text-slate-400 mt-3">
+                김기철 대표 컨설턴트의 1:1 진단 알고리즘이 적용됩니다.
               </p>
             </div>
           </div>
-
-          {/* Right Column: Persuasive Features */}
-          <div className="space-y-6 pt-4">
-            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
-              <div className="flex gap-4">
-                <div className="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">💔</div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">매번 실패하는 이유, 알아야 합니다</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    무의미한 지원서 100개보다, **나를 간절히 원하는 시장** 1곳을 찾는 것이 백번 낫습니다. 당신의 강점을 제대로 알아주는 곳으로 안내할게요.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
-              <div className="flex gap-4">
-                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">🛫</div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">인생은 선택의 연속입니다</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    호주의 여유로운 삶과 한국의 빠른 성장, 당신의 성향과 스펙에 맞춰 어디서 더 빛날 수 있을지 냉철하게 분석해 드립니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-white/40 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
-              <div className="flex gap-4">
-                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm shrink-0">�</div>
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">당신의 가치는 생각보다 높습니다</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm font-medium">
-                    숨겨진 몸값을 찾아보세요. 글로벌 시장 데이터는 당신이 받아야 할 **정당한 대우**가 무엇인지 생생하게 보여줄 것입니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* FOMO / Social Proof */}
-            <div className="mt-8 bg-slate-900 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10"></div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex -space-x-3">
-                    {[10, 12, 15, 20].map((i) => (
-                      <div key={i} className={`w-8 h-8 rounded-full border-2 border-slate-800 bg-slate-600 overflow-hidden`}>
-                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 50}`} alt="user" />
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-yellow-400 font-bold text-sm">★★★★★</span>
-                </div>
-                <p className="font-medium text-slate-300 text-sm italic">
-                  "이 분석을 보지 못했다면 저는 지금도 한국에서 연봉 3천만 원에 허덕이고 있었을 거예요. 이제 저는 호주에서 제 가치를 증명하며 살고 있습니다."
-                </p>
-                <p className="text-slate-400 text-xs mt-2 font-bold uppercase tracking-wider">
-                  — 박지우 (호주 유니콘 기업 이직 성공)
-                </p>
-              </div>
-            </div>
-
-          </div>
         </div>
-      </div>
+      </main>
 
-      <style jsx global>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
+      <footer className="bg-slate-50 border-t border-slate-200 mt-20 py-12">
+        <div className="container mx-auto px-4 max-w-6xl text-center">
+          <p className="text-slate-400 text-sm font-medium">© 2026 NicoPilot Career Institute. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }

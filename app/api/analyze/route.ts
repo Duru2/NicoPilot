@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseResumeWithAI } from '@/lib/agents/resume-parser';
-import { calculateMarketScore } from '@/lib/agents/market-scorer';
+import { generateComprehensiveReport } from '@/lib/agents/report-generator';
 import { supabase } from '@/lib/supabase';
 
 export const maxDuration = 60; // 5 minutes
@@ -18,58 +18,65 @@ export async function POST(request: NextRequest) {
         }
 
         // Parse resume with AI
+        console.log('Parsing resume...');
         const parsedResume = await parseResumeWithAI(resumeText);
+        console.log('Resume parsed successfully.');
 
-        // Calculate market scores
-        const marketScore = await calculateMarketScore(parsedResume);
+        // Generate comprehensive strategy report
+        console.log('Generating strategy report...');
+        const report = await generateComprehensiveReport(parsedResume);
+        console.log('Strategy report generated successfully.');
+
+        // Extract simplified scores for DB compatibility
+        const marketScore = {
+            australiaScore: report.diagnosis.marketAlignment.australia,
+            koreaScore: report.diagnosis.marketAlignment.korea,
+            factors: {
+                // Approximate mapping or default values since we don't have these granular factors anymore
+                marketDemand: (report.diagnosis.marketAlignment.australia + report.diagnosis.marketAlignment.korea) / 2,
+                englishRequirement: report.diagnosis.languageRisk === 'High' ? 90 : report.diagnosis.languageRisk === 'Medium' ? 50 : 20,
+                visaDifficulty: report.diagnosis.visaRisk === 'High' ? 90 : report.diagnosis.visaRisk === 'Medium' ? 50 : 20,
+                competitionLevel: 70, // Default
+                salaryFit: 80, // Default
+            }
+        };
 
         // Save to database
+        console.log('Saving to Supabase...');
         const { data, error } = await supabase
             .from('analyses')
             .insert({
                 parsed_resume: parsedResume,
                 market_score: marketScore,
+                report: report, // Save the full new report
                 is_paid: false,
             })
             .select()
             .single();
 
         if (error) {
-            console.error('Supabase error:', error);
+            console.error('Supabase error:', JSON.stringify(error, null, 2));
             return NextResponse.json(
-                { error: 'Failed to save analysis' },
+                { error: `Database Error: ${error.message || 'Failed to save analysis'}` },
                 { status: 500 }
             );
         }
+        console.log('Saved to Supabase successfully.');
 
-        // Transform to new UI structure
+        // Return the full analysis object
         const responseData = {
             id: data.id,
-            candidateName: parsedResume.name || 'Candidate',
-            jobTitle: parsedResume.jobTitle || 'Tech Professional',
-            totalScore: Math.round((marketScore.australiaScore + marketScore.koreaScore) / 2),
-            summary: parsedResume.summary || 'A detailed analysis of your profile.',
-            salary: {
-                au: { currency: 'AUD', min: 85000, max: 130000, median: 105000 }, // Mock data for now, would come from scorer
-                kr: { currency: 'KRW', min: 45000000, max: 80000000, median: 60000000 },
-            },
-            marketFit: {
-                au: { score: marketScore.australiaScore, topSkills: parsedResume.techStack, missingSkills: [] },
-                kr: { score: marketScore.koreaScore, topSkills: parsedResume.techStack, missingSkills: [] },
-            },
-            actionPlan: [
-                { priority: 'High', task: 'Update LinkedIn profile for AU market', deadline: 'Day 3' },
-                { priority: 'Medium', task: 'Learn React Server Components', deadline: 'Day 14' },
-                { priority: 'High', task: 'Apply to Global Talent Visa', deadline: 'Day 30' },
-            ],
+            parsedResume,
+            marketScore,
+            report,
             createdAt: new Date().toISOString(),
         };
 
         return NextResponse.json(responseData);
-    } catch (error) {
-        console.error('Analysis error:', error);
+    } catch (error: any) {
+        console.error('Analysis error details:', error);
         return NextResponse.json(
-            { error: 'Failed to analyze resume' },
+            { error: `Analysis Failed: ${error.message || 'Unknown error'}` },
             { status: 500 }
         );
     }
