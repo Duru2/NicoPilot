@@ -103,7 +103,6 @@ Output Format: JSON strictly adhering to the following structure.
     }
 
     return JSON.parse(content);
-    return JSON.parse(content);
   } catch (error) {
     console.error('OpenAI generation failed, returning dynamic mock data:', error);
     return generateMockReport(resume);

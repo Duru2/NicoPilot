@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { supabase } from '@/lib/supabase';
-import { generateStrategyReport } from '@/lib/agents/report-generator';
+import { generateComprehensiveReport } from '@/lib/agents/report-generator';
 
 export async function POST(request: NextRequest) {
     try {
@@ -40,9 +40,8 @@ export async function POST(request: NextRequest) {
             }
 
             // Generate the full report
-            const report = await generateStrategyReport(
-                analysis.parsed_resume,
-                analysis.market_score
+            const report = await generateComprehensiveReport(
+                analysis.parsed_resume
             );
 
             // Update the analysis with the report and mark as paid
